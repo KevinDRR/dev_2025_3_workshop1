@@ -1,166 +1,96 @@
 class Conversion:
     def celsius_a_fahrenheit(self, celsius):
-        """
-        Convierte temperatura de Celsius a Fahrenheit.
-        
-        Args:
-            celsius (float): Temperatura en grados Celsius
-            
-        Returns:
-            float: Temperatura en grados Fahrenheit
-            
-        Fórmula: F = (C × 9/5) + 32
-        
-        Ejemplo:
-            celsius_a_fahrenheit(0) -> 32.0
-            celsius_a_fahrenheit(100) -> 212.0
-        """
-        pass
+        return (celsius * 9/5) + 32
     
     def fahrenheit_a_celsius(self, fahrenheit):
-        """
-        Convierte temperatura de Fahrenheit a Celsius.
-        
-        Args:
-            fahrenheit (float): Temperatura en grados Fahrenheit
-            
-        Returns:
-            float: Temperatura en grados Celsius
-            
-        Fórmula: C = (F - 32) × 5/9
-        
-        Ejemplo:
-            fahrenheit_a_celsius(32) -> 0.0
-            fahrenheit_a_celsius(212) -> 100.0
-        """
-        pass
+        return (fahrenheit - 32) * 5/9
     
     def metros_a_pies(self, metros):
-        """
-        Convierte distancia de metros a pies.
-        
-        Args:
-            metros (float): Distancia en metros
-            
-        Returns:
-            float: Distancia en pies
-            
-        Factor: 1 metro = 3.28084 pies
-        
-        Ejemplo:
-            metros_a_pies(1) -> 3.28084
-        """
-        pass
+        return metros * 3.28084
     
     def pies_a_metros(self, pies):
-        """
-        Convierte distancia de pies a metros.
-        
-        Args:
-            pies (float): Distancia en pies
-            
-        Returns:
-            float: Distancia en metros
-            
-        Factor: 1 pie = 0.3048 metros
-        
-        Ejemplo:
-            pies_a_metros(3.28084) -> 1.0
-        """
-        pass
-    
+        return pies * 0.3048
+
     def decimal_a_binario(self, decimal):
-        """
-        Convierte un número decimal a su representación binaria.
-        
-        Args:
-            decimal (int): Número decimal (positivo)
-            
-        Returns:
-            str: Representación binaria como string
-            
-        Ejemplo:
-            decimal_a_binario(10) -> "1010"
-            decimal_a_binario(255) -> "11111111"
-        """
-        pass
+        if decimal == 0:
+            return "0"
+        return bin(decimal)[2:]
     
     def binario_a_decimal(self, binario):
-        """
-        Convierte un número binario a decimal.
-        
-        Args:
-            binario (str): Representación binaria como string
-            
-        Returns:
-            int: Número decimal
-            
-        Ejemplo:
-            binario_a_decimal("1010") -> 10
-            binario_a_decimal("11111111") -> 255
-        """
-        pass
+        return int(binario, 2)
     
     def decimal_a_romano(self, numero):
-        """
-        Convierte un número decimal a numeración romana.
+        if not 0 < numero < 4000:
+            return "Número fuera de rango (debe ser entre 1 y 3999)"
         
-        Args:
-            numero (int): Número decimal entre 1 y 3999
-            
-        Returns:
-            str: Número romano
-            
-        Ejemplo:
-            decimal_a_romano(9) -> "IX"
-            decimal_a_romano(1994) -> "MCMXCIV"
-        """
-        pass
+        valores_map = [
+            (1000, "M"), (900, "CM"), (500, "D"), (400, "CD"),
+            (100, "C"), (90, "XC"), (50, "L"), (40, "XL"),
+            (10, "X"), (9, "IX"), (5, "V"), (4, "IV"),
+            (1, "I")
+        ]
+        
+        resultado = ""
+        for valor, simbolo in valores_map:
+            while numero >= valor:
+                resultado += simbolo
+                numero -= valor
+        return resultado
     
     def romano_a_decimal(self, romano):
-        """
-        Convierte un número romano a decimal.
+        romano_map = {
+            'I': 1, 'V': 5, 'X': 10, 'L': 50,
+            'C': 100, 'D': 500, 'M': 1000
+        }
         
-        Args:
-            romano (str): Número romano válido
-            
-        Returns:
-            int: Número decimal
-            
-        Ejemplo:
-            romano_a_decimal("IX") -> 9
-            romano_a_decimal("MCMXCIV") -> 1994
-        """
-        pass
-    
+        resultado = 0
+        i = 0
+        while i < len(romano):
+            valor_actual = romano_map[romano[i]]
+            if i + 1 < len(romano) and romano_map[romano[i+1]] > valor_actual:
+                resultado += romano_map[romano[i+1]] - valor_actual
+                i += 2
+            else:
+                resultado += valor_actual
+                i += 1
+        return resultado
+
     def texto_a_morse(self, texto):
-        """
-        Convierte texto a código Morse.
+        morse_dict = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+            'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+            'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+            'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+            'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--',
+            '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+            '9': '----.', '0': '-----', ' ': '/'
+        }
         
-        Args:
-            texto (str): Texto a convertir (letras y números)
-            
-        Returns:
-            str: Código Morse separado por espacios
-            
-        Ejemplo:
-            texto_a_morse("SOS") -> "... --- ..."
-            texto_a_morse("HELLO") -> ".... . .-.. .-.. ---"
-        """
-        pass
+        resultado = []
+        for char in texto.upper():
+            if char in morse_dict:
+                resultado.append(morse_dict[char])
+        return " ".join(resultado)
     
     def morse_a_texto(self, morse):
-        """
-        Convierte código Morse a texto.
+        morse_dict_inv = {
+            '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E', '..-.': 'F',
+            '--.': 'G', '....': 'H', '..': 'I', '.---': 'J', '-.-': 'K', '.-..': 'L',
+            '--': 'M', '-.': 'N', '---': 'O', '.--.': 'P', '--.-': 'Q', '.-.': 'R',
+            '...': 'S', '-': 'T', '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X',
+            '-.--': 'Y', '--..': 'Z', '.----': '1', '..---': '2', '...--': '3',
+            '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',
+            '----.': '9', '-----': '0', '/': ' '
+        }
         
-        Args:
-            morse (str): Código Morse separado por espacios
+        palabras_morse = morse.split('   ')
+        texto_final = []
+        for palabra_morse in palabras_morse:
+            letras_morse = palabra_morse.split(' ')
+            palabra_decodificada = ""
+            for letra in letras_morse:
+                if letra in morse_dict_inv:
+                    palabra_decodificada += morse_dict_inv[letra]
+            texto_final.append(palabra_decodificada)
             
-        Returns:
-            str: Texto decodificado
-            
-        Ejemplo:
-            morse_a_texto("... --- ...") -> "SOS"
-            morse_a_texto(".... . .-.. .-.. ---") -> "HELLO"
-        """
-        pass
+        return " ".join(texto_final)
